@@ -22,7 +22,7 @@ public:
 
     void readcsv();
 
-    //void cmdReaderHelper(std::ifstream& file);  
+    //void cmdReaderHelper(std::ifstream& file);
 };
 
 #endif

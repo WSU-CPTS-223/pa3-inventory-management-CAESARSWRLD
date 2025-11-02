@@ -84,7 +84,7 @@ class productMap
 
 
 
-		void listAllFromCategory(productMap<std::string, product>& table, const std::string& category)
+		void listAllFromCategory(productMap<std::string, product>& table, std::string category)
 		{
 
 			bool found = false;
@@ -97,17 +97,26 @@ class productMap
 				while (bucketNode != nullptr)
 				{
 					product& p = bucketNode->val;
-					
-					
-					for (const auto& categoryToCheck : p.getField(4))
+
+					std::string categories = p.getField(4);
+
+					std::stringstream ss(categories);
+
+					std::string oneCategory;
+					while (std::getline(ss, oneCategory, '|'))
 					{
-						if (categoryToCheck == category)
+						oneCategory = removeSpaces(oneCategory);
+
+						if (oneCategory == category)
 						{
 							std::cout << p.getField(0) << " " << p.getField(1) << std::endl;
+
+
 							found = true;
 							break;
 						}
 					}
+
 					bucketNode = bucketNode->nextSpace;
 				}
 				
@@ -117,6 +126,21 @@ class productMap
 			{
 				std::cout << "Invalid Category" << std::endl;
 			}
+		}
+
+
+		std::string removeSpaces(const std::string& lineWithPossibleExtra)
+		{
+			size_t start = lineWithPossibleExtra.find_first_not_of(" \t");
+
+			size_t end = lineWithPossibleExtra.find_last_not_of(" \t");
+
+			if (start == std::string::npos || end == std::string::npos)
+			{
+				return "";
+			}
+
+			return lineWithPossibleExtra.substr(start, end - start + 1);//removes spaces from front and back
 		}
 
 };

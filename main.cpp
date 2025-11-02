@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include "csvReading.h"
+#include "testFunctions.cpp"
 
 using namespace std;
+
 
 void printHelp()
 {
@@ -23,7 +25,7 @@ bool validCommand(string line)
 
 static productMap<string, product> hashMap;
 
-const std::string& filename = "amazonData.csv";
+const string& filename = "amazonData.csv";
 csvReading c(filename, hashMap);
 
 
@@ -56,7 +58,9 @@ void evalCommand(string line)
     else if (line.rfind("listInventory") == 0)
     {
         // Look up the appropriate datastructure to find all inventory belonging to a specific category
-        string inventoryId = line.substr(5);
+        string category = line.substr(14);
+
+        c.productHashTable.listAllFromCategory(hashMap, category);
     }
 }
 
@@ -89,7 +93,8 @@ void bootStrap()
 
 int main(int argc, char const* argv[])
 {
-    
+    testInsertThenFind();
+    testListAllFromACategory();
 
     string line;
     bootStrap();
